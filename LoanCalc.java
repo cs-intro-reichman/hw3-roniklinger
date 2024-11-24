@@ -38,16 +38,18 @@ public class LoanCalc {
 	
     public static double bruteForceSolver(double loan, double rate, int n, double epsilon) {
 		double payment = loan/n;
+		iterationCounter = 0;
 		while(endBalance(loan, rate, n , payment) > 0){
 			payment = payment + epsilon;
+			iterationCounter++;
 		}
 		return payment;
     }
-	
+
     public static double bisectionSolver(double loan, double rate, int n, double epsilon) {  
 		double L = loan / n, H = loan;
 		double g = (L + H) / 2.0;
-		//int stepCounter = 0;
+		iterationCounter = 0;
 		while (H - L > epsilon) {
 			double balance = endBalance(loan, rate, n, g);
 			if (balance > 0){
@@ -57,6 +59,7 @@ public class LoanCalc {
 				H = g;
 			}
 			g = (L + H) / 2;
+			iterationCounter++;
 			}
 			return g;
     }
