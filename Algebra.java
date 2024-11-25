@@ -9,13 +9,13 @@ public class Algebra {
 	    System.out.println(plus(2,3));   // 2 + 3
 	    System.out.println(minus(7,2));  // 7 - 2
    		System.out.println(minus(2,7));  // 2 - 7
- 		System.out.println(times(3,4));  // 3 * 4
+ 		System.out.println(times(-3,4));  // 3 * 4
    		System.out.println(plus(2,times(4,2)));  // 2 + 4 * 2
    		System.out.println(pow(5,3));      // 5^3
    		System.out.println(pow(3,5));      // 3^5
-   		System.out.println(div(12,3));   // 12 / 3    
+   		System.out.println(div(-12,3));   // 12 / 3    
    		System.out.println(div(5,5));    // 5 / 5  
-   		System.out.println(div(25,7));   // 25 / 7
+   		System.out.println(div(-25,-7));   // 25 / 7
    		System.out.println(mod(25,7));   // 25 % 7
    		System.out.println(mod(120,6));  // 120 % 6    
    		System.out.println(sqrt(36));
@@ -41,15 +41,38 @@ public class Algebra {
 		return x1;
 	}
 
+	public static int neg_to_pos(int x1) {
+		x1 = plus(0, minus(0, x1));
+		return x1;
+	}
+
+	public static int pos_to_neg(int x1) {
+		x1 = minus(0, x1);
+		return x1;
+	}
+
 	// Returns x1 * x2
 	public static int times(int x1, int x2) {
 		int num2 = x2, count = x2;
+		boolean x1_pos = true, x2_pos = true;
+		if(x1 < 0){
+			x1 = neg_to_pos(x1);				
+			x1_pos = false;
+		}
+		if(x2 < 0){
+			x2 = neg_to_pos(x2);
+			num2 = x2;
+			x2_pos = false;
+		}
 		for (int i=1;i<x1;i++){
 			x2 = count;
 			while(x2 != 0){
 				num2++;
 				x2--;
 			}
+		}
+		if(x1_pos != x2_pos){
+			num2 = pos_to_neg(num2);
 		}
 		return num2;
 	}
@@ -66,14 +89,29 @@ public class Algebra {
 	// Returns the integer part of x1 / x2 
 	public static int div(int x1, int x2) {
 		int num2 = x2, count = 0;
-		while (x1 != 0 && x1 >= num2){
+		boolean x1_pos = true, x2_pos = true;
+		if(x1 < 0){
+			//x1 = plus(minus(x1,x1), minus(0, x1));
+			x1 = neg_to_pos(x1);
+			x1_pos = false;
+		}
+		if(x2 < 0){
+			x2 = neg_to_pos(x2);
+			num2 = x2;
+			x2_pos = false;
+		}
+		while (x1 >= num2){
 			x2 = num2;
 			while(x2 != 0){
 				x1--;
 				x2--;
 			}	
 			count++;
-		}		
+		}	
+		if(x1_pos != x2_pos){
+			//count = minus(count, times(count,2));
+			count = pos_to_neg(count);
+		}
 		return count;
 	}
 
