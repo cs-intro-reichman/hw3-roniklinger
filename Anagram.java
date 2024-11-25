@@ -36,10 +36,12 @@ public class Anagram {
 		str2 = preProcess(str2);
 		if(str2.length() == str1.length()){
 			for(int i=0;i < str1.length();i++){
+				boolean let = false;
 				for(int j=0;j < str2.length();j++){
-					if(str1.charAt(i) == str2.charAt(j)){
+					if((str1.charAt(i) == str2.charAt(j)) && let == false){
 						count++;
 						str2 = str2.substring(0, j) + str2.substring(j + 1);
+						let = true;
 					}
 				}
 			}
@@ -57,7 +59,8 @@ public class Anagram {
 		str = str.toLowerCase();
 		String new_str = "";
 		for(int i=0; i<str.length();i++){
-			if (Character.isLetter(str.charAt(i)) || (str.charAt(i) == ' ' )) {
+			if (Character.isLetter(str.charAt(i)) ){
+			//|| (str.charAt(i) == ' ' )) {
 				new_str = new_str + str.charAt(i);
 			}
 		}
