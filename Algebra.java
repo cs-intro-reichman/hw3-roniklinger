@@ -55,6 +55,9 @@ public class Algebra {
 	public static int times(int x1, int x2) {
 		int num2 = x2, count = x2;
 		boolean x1_pos = true, x2_pos = true;
+		if (x1 == 0 || x2 == 0){
+			return 0;
+		}
 		if(x1 < 0){
 			x1 = neg_to_pos(x1);				
 			x1_pos = false;
@@ -80,6 +83,9 @@ public class Algebra {
 	// Returns x^n (for n >= 0)
 	public static int pow(int x, int n) {
 		int num = times(x,x);
+		if (n == 0){
+			return 1;
+		}
 		for (int i=2;i<n;i++){
 			num = times(num,x);	
 		}
