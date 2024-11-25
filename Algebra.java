@@ -12,7 +12,7 @@ public class Algebra {
  		System.out.println(times(-3,4));  // 3 * 4
    		System.out.println(plus(2,times(4,2)));  // 2 + 4 * 2
    		System.out.println(pow(5,3));      // 5^3
-   		System.out.println(pow(3,5));      // 3^5
+   		System.out.println(pow(-3,5));      // 3^5 
    		System.out.println(div(-12,3));   // 12 / 3    
    		System.out.println(div(5,5));    // 5 / 5  
    		System.out.println(div(-25,-7));   // 25 / 7
@@ -20,7 +20,7 @@ public class Algebra {
    		System.out.println(mod(120,6));  // 120 % 6    
    		System.out.println(sqrt(36));
 		System.out.println(sqrt(263169));
-   		System.out.println(sqrt(76123));
+   		System.out.println(sqrt(76123)); 
 	}  
 
 	// Returns x1 + x2
@@ -41,40 +41,48 @@ public class Algebra {
 		return x1;
 	}
 
+	// Returns +x1
 	public static int neg_to_pos(int x1) {
-		x1 = plus(0, minus(0, x1));
-		return x1;
+		int count = 0;
+        while (x1 < 0) {
+            x1++;
+            count++;
+        }
+		return count;
 	}
 
+	// Returns -x1
 	public static int pos_to_neg(int x1) {
-		x1 = minus(0, x1);
-		return x1;
+		int count = 0;
+        while (x1 > 0) {
+            x1--;
+            count--;
+        }
+		return count;
 	}
+
+	// Returns abs(x1)
+	public static int abs(int x1) {
+        if (x1 < 0) {
+            x1 = neg_to_pos(x1);
+        }
+        return x1;
+    }
 
 	// Returns x1 * x2
 	public static int times(int x1, int x2) {
-		int num2 = x2, count = x2;
-		boolean x1_pos = true, x2_pos = true;
 		if (x1 == 0 || x2 == 0){
 			return 0;
 		}
-		if(x1 < 0){
-			x1 = neg_to_pos(x1);				
-			x1_pos = false;
+
+		int abs_x1 = abs(x1);
+		int abs_x2 = abs(x2);
+		int num2 = abs_x2;
+		
+		for (int i=1;i<abs_x1;i++){
+			num2 = plus(num2, abs_x2);
 		}
-		if(x2 < 0){
-			x2 = neg_to_pos(x2);
-			num2 = x2;
-			x2_pos = false;
-		}
-		for (int i=1;i<x1;i++){
-			x2 = count;
-			while(x2 != 0){
-				num2++;
-				x2--;
-			}
-		}
-		if(x1_pos != x2_pos){
+		if((x1 < 0 && x2 > 0) || (x1 > 0 && x2 < 0)){
 			num2 = pos_to_neg(num2);
 		}
 		return num2;
@@ -83,39 +91,30 @@ public class Algebra {
 	// Returns x^n (for n >= 0)
 	public static int pow(int x, int n) {
 		int num = times(x,x);
+		int abs_x = abs(x);
 		if (n == 0){
 			return 1;
 		}
 		for (int i=2;i<n;i++){
-			num = times(num,x);	
+			num = times(num,abs_x);	
+		}
+		if(mod(n, 2) != 0 && x < 0){
+			num = pos_to_neg(num);
 		}
 		return num;
 	}
 
 	// Returns the integer part of x1 / x2 
 	public static int div(int x1, int x2) {
-		int num2 = x2, count = 0;
-		boolean x1_pos = true, x2_pos = true;
-		if(x1 < 0){
-			//x1 = plus(minus(x1,x1), minus(0, x1));
-			x1 = neg_to_pos(x1);
-			x1_pos = false;
-		}
-		if(x2 < 0){
-			x2 = neg_to_pos(x2);
-			num2 = x2;
-			x2_pos = false;
-		}
-		while (x1 >= num2){
-			x2 = num2;
-			while(x2 != 0){
-				x1--;
-				x2--;
-			}	
+
+		int abs_x1 = abs(x1), abs_x2 = abs(x2);
+		int num2 = abs_x2, count = 0;
+
+		while (abs_x1 >= num2){
+			abs_x1 = minus(abs_x1, abs_x2);
 			count++;
 		}	
-		if(x1_pos != x2_pos){
-			//count = minus(count, times(count,2));
+		if((x1 < 0 && x2 > 0) || (x1 > 0 && x2 < 0)){
 			count = pos_to_neg(count);
 		}
 		return count;
