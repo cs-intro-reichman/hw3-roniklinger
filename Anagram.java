@@ -34,11 +34,13 @@ public class Anagram {
 		boolean anagram = false;
 		str1 = preProcess(str1);
 		str2 = preProcess(str2);
+		str1 = deleteSpace(str1);
+		str2 = deleteSpace(str2);
 		if(str2.length() == str1.length()){
 			for(int i=0;i < str1.length();i++){
 				boolean let = false;
 				for(int j=0;j < str2.length();j++){
-					if((str1.charAt(i) == str2.charAt(j)) && let == false){
+					if((str1.charAt(i) == str2.charAt(j) ) && let == false){
 						count++;
 						str2 = str2.substring(0, j) + str2.substring(j + 1);
 						let = true;
@@ -51,6 +53,23 @@ public class Anagram {
 		}
 			return anagram;
 	}
+
+	public static String deleteSpace(String str) {
+		String new_str = "";
+		for(int i=0; i<str.length();i++){
+			if(str.charAt(i) == ' '){
+				
+			}
+			else{
+				new_str = new_str + str.charAt(i);
+			}
+	}
+	return new_str;
+	}
+
+
+
+	
 	   
 	// Returns a preprocessed version of the given string: all the letter characters are converted
 	// to lower-case, and all the other characters are deleted, except for spaces, which are left
@@ -59,8 +78,7 @@ public class Anagram {
 		str = str.toLowerCase();
 		String new_str = "";
 		for(int i=0; i<str.length();i++){
-			if (Character.isLetter(str.charAt(i)) ){
-			//|| (str.charAt(i) == ' ' )) {
+			if (Character.isLetter(str.charAt(i)) || (str.charAt(i) == ' ' )) {
 				new_str = new_str + str.charAt(i);
 			}
 		}
