@@ -63,14 +63,10 @@ public class Anagram {
 			else{
 				new_str = new_str + str.charAt(i);
 			}
+		}
+		return new_str;
 	}
-	return new_str;
-	}
 
-
-
-	
-	   
 	// Returns a preprocessed version of the given string: all the letter characters are converted
 	// to lower-case, and all the other characters are deleted, except for spaces, which are left
 	// as is. For example, the string "What? No way!" becomes "whatnoway"
@@ -88,12 +84,10 @@ public class Anagram {
 	// Returns a random anagram of the given string. The random anagram consists of the same
 	// characters as the given string, re-arranged in a random order. 
 	public static String randomAnagram(String str) {
-		//int rand = 0;
 		String newstr = "";
 		Random rand = new Random();
 		while(str.length() != 0){
 			int random_num = rand.nextInt(str.length());
-			//rand = Math.random();
 			newstr = newstr + str.charAt(random_num);
 			str = str.substring(0, random_num) + str.substring(random_num + 1);
 		}
